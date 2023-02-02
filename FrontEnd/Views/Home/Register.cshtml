@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Register Page";
+}
+
+
+@using System.Data
+@model FrontEndCafeteria.Models.Employee
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to BA Cafeteria!</h1>
+    @using (Html.BeginForm("Register", "Home"))
+    {
+        <form action="Register" method="post">
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="form2Example1" class="form-control" name="email" placeholder="Email Address..." />
+                <label class="form-label" for="form2Example1">Email address</label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="form2Example2" class="form-control" name="pass" placeholder="Password... " />
+                <label class="form-label" for="form2Example2">Password</label>
+            </div>
+            <!-- Last Name input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example2" class="form-control" name="LastName" placeholder="LastName... " />
+                <label class="form-label" for="form2Example2">Last Name</label>
+            </div>
+            <!-- First Name input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example2" class="form-control" name="FirstName" placeholder="FirstName... " />
+                <label class="form-label" for="form2Example2">First Name</label>
+            </div>
+            <!-- Address input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example2" class="form-control" name="Address" placeholder="Address... " />
+                <label class="form-label" for="form2Example2">Address</label>
+            </div>
+            <!-- phonenumber input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example2" class="form-control" name="phonenumber" placeholder="Phone Number... " />
+                <label class="form-label" for="form2Example2">Phone Number</label>
+            </div>
+            <!-- JOB input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example2" class="form-control" name="JOB" placeholder="Job... " />
+                <label class="form-label" for="form2Example2">Job</label>
+            </div>
+            <!-- Salary input -->
+            <div class="form-outline mb-4">
+                <input type="number" id="form2Example2" class="form-control" name="salary" placeholder="salary... " />
+                <label class="form-label" for="form2Example2">Salary</label>
+            </div>
+
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Create Account</button>
+
+        </form>
+    }
+
+  
+</div>

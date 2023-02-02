@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@using System.Data
+@model Employee
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to BA Cafeteria!</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @using (Html.BeginForm("Index", "Home"))
+    {
+    <form action="Index" method="post">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" id="form2Example1" class="form-control" name="email" placeholder="Email Address..." />
+            <label class="form-label" for="form2Example1">Email address</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="form2Example2" class="form-control" name="pass" placeholder="Password... " />
+            <label class="form-label" for="form2Example2">Password</label>
+        </div>
+
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Log in</button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+            <p>Not a member? <a href="https://localhost:44345/Home/Register">Register</a></p>
+        </div>
+    </form>
+    }
+
+    Login - register
+</div>
