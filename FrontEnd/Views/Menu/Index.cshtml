@@ -1,0 +1,126 @@
+﻿@using System.Data
+
+@model IEnumerable<FrontEndCafeteria.Models.Product>;
+@{
+    var user = ViewBag.User;
+}
+
+
+<p id="userID" style="visibility:hidden">@user.EmpID</p>
+<div class="text-center">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Hi @user.FirstName @user.LastName</h1>
+            <p class="lead">Here is our list of products.Fill your cart as much as you can!.</p>
+        </div>
+    </div>
+    <p class="lead" style="font-size:xx-large; color:darkred">Items Added to Cart</p>
+    <p class="badge badge-secondary" style="background-color:forestgreen; color:white; font-size:x-large" id="num">0</p>
+    <br />
+    <br />
+    <table id="menu" class="table table-striped">
+        <thead>
+            <tr style="background-color:aliceblue">
+                <th scope="col">Product Id</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Available Quantity</th>
+                <th scope="col">Quantity Required</th>
+                <th scope="col">Price</th>
+                <th scope="col">Buy</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+
+                <tr>
+                    <th scope="row">@product.productID</th>
+                    <th scope="row">@product.productName</th>
+                    <th scope="row">@product.availableQuantity</th>
+                    <th scope="row"><input disabled id="@("input" + product.productID.ToString())" type="number" class="form-control" value="0" min="0" max=@product.availableQuantity name="QuantityRequired" style="width:60px; position:relative; left:60px;"> </th>
+                    <th scope="row">@product.price</th>
+                    <th scope="row"><button id=@product.productID type="button" style="background-color:royalblue" onclick="return AddProduct(this.id)" class="btn btn-primary">Add to Cart</button></th>
+                </tr>
+
+
+            }
+        </tbody>
+    </table>
+    <button id="checkout" type="submit" onclick="return MyFun()" disabled style="width: 150px; height: 70px; background-color: royalblue; font-size: x-large" class="btn btn-primary"> Checkout</button>
+    <br />
+    @*   // onclick=" location.href='@Url.Action("Checkout", "Menu")' "
+    *@
+</div>
+<script>
+    function MyFun() {
+        table = document.getElementById("menu");
+        rows = table.rows;
+        numRows = rows.length;
+      //  id = parseInt(rows[1].cells[0].innerHTML);
+      //  console.log(id);
+        var listOfQuantities = [];
+        var listOfProducts = [];
+        for (i = 1; i < numRows; i++)
+        {
+            productid = parseInt(rows[i].cells[0].innerHTML);
+            inp = document.getElementById("input" + rows[i].cells[0].innerHTML);
+            value = parseInt(inp.value);
+            if (value != 0) {
+                listOfQuantities.push(value);
+                listOfProducts.push(productid);
+            }
+        }
+        $.ajax({
+                 url: '@Url.Action("Checkout", "Menu")',
+            data: { quantities: listOfQuantities, products: listOfProducts},
+                type: 'POST'
+            });
+        return lastFun();
+    }
+    function lastFun() {
+        location.href='@Url.Action("GoPay", "Menu")'
+    }
+
+    function AddProduct(id) {
+        var button = document.getElementById(id);
+        var inp = document.getElementById("input" + id);
+        inp.disabled = false;
+        inp.value = '1';
+        if (button.style.backgroundColor == 'red') {
+                return DeleteProduct(id);
+            }
+            document.getElementById("num").innerHTML = parseInt(document.getElementById("num").innerHTML) + 1;
+        button.innerHTML = "Undo";
+        button.style.backgroundColor = 'red';
+            document.getElementById("checkout").disabled = false;
+
+            $.ajax({
+                url: '@Url.Action("AddCart", "Menu")',
+                data: { prodID: id, userid: document.getElementById("userID").innerHTML},
+                type: 'POST'
+            });
+        }
+
+    function DeleteProduct(id) {
+        var button = document.getElementById(id);
+        var inp = document.getElementById("input" + id);
+        inp.value = '0';
+        inp.disabled = true;
+
+            document.getElementById("num").innerHTML = parseInt(document.getElementById("num").innerHTML) - 1;
+            var x = document.getElementById("num").innerHTML;
+            if (x == 0) {
+                document.getElementById("checkout").disabled = true;
+            }
+
+            document.getElementById(id).innerHTML = "Add to Cart";
+            document.getElementById(id).style.backgroundColor = 'royalblue';
+            $.ajax({
+                url: '@Url.Action("DeleteCart", "Menu")',
+                data: { prodID: id, userid: document.getElementById("userID").innerHTML},
+                type: 'POST'
+            });
+    }
+
+</script>
+
