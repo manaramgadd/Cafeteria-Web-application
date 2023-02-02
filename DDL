@@ -1,0 +1,42 @@
+CREATE TABLE Emp (
+    EmpID int NOT NULL AUTO_INCREMENT primary key,
+    email varchar(255) unique NOT NULL,
+    pass varchar(255)  NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Address varchar(255),
+    phonenumber varchar(255),
+    JOB  varchar(255) NOT NULL,
+    salary int
+);
+
+create table products (
+	productID int not null AUTO_INCREMENT PRIMARY KEY  ,
+    productName varchar(255) NOT NULL,
+    availableQuantity int NOT NULL check (availableQuantity >=0),
+    price numeric NOT NULL
+); 
+
+create table orders (
+	orderID int not null AUTO_INCREMENT PRIMARY KEY,
+    empID int NOT NULL,
+    prodID int NOT NULL,
+    quantityRequired int,
+    totalPrice numeric,
+    dateAndTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    completed bit default 0,
+    FOREIGN KEY (empID) REFERENCES emp(EmpID),
+    FOREIGN KEY (prodID) REFERENCES products(productID)
+);
+
+create table departments (
+	depID int not null AUTO_INCREMENT PRIMARY KEY,
+    depName varchar (255),
+    supervisorID int ,
+    FOREIGN KEY ( supervisorID) REFERENCES emp(EmpID)
+);
+
+call get_all_products();
+call emolyee_log('ahmed@gmail.com', 'ajhmed');
+insert into emp values ('anas@gmail.com', 'anas', 'ahmed', 'anas', '56H', '01298657898', 'supervisor', 1222);
+call add_employee('anas@gmail.com', 'anas', 'ahmed', 'anas', '56H', '01298657898', 'supervisor', 1222);
